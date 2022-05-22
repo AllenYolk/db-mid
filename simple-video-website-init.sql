@@ -2,11 +2,13 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2022/5/22 21:58:50                           */
 /*==============================================================*/
+drop database if exists db_mid;
+create database db_mid;
+use db_mid;
 
+drop trigger if exists liked_increase_exp;
 
-drop trigger liked_increase_exp;
-
-drop trigger watch_increase_exp;
+drop trigger if exists watch_increase_exp;
 
 drop procedure if exists follow;
 
@@ -17,61 +19,61 @@ drop view if exists view_follower_count;
 drop view if exists view_section_video_count;
 
 drop view if exists view_video_data;
-
+/*
 drop index follower_idx on follow_record;
 
 drop index followed_idx on follow_record;
-
+*/
 drop table if exists follow_record;
-
+/*
 drop index related_idx on related_video;
 
 drop index main_idx on related_video;
-
+*/
 drop table if exists related_video;
-
+/*
 drop index section_idx on section;
-
+*/
 drop table if exists section;
-
+/*
 drop index fav_video_idx on user_add2fav_video;
 
 drop index fav_user_idx on user_add2fav_video;
-
+*/
 drop table if exists user_add2fav_video;
-
+/*
 drop index like_video_idx on user_like_video;
 
 drop index like_user_idx on user_like_video;
-
+*/
 drop table if exists user_like_video;
-
+/*
 drop index publish_video_idx on user_publish_video;
 
 drop index publish_user_idx on user_publish_video;
-
+*/
 drop table if exists user_publish_video;
-
+/*
 drop index watch_video_idx on user_watch_video;
 
 drop index watch_user_idx on user_watch_video;
-
+*/
 drop table if exists user_watch_video;
-
+/*
 drop index video_section_idx on video;
 
 drop index video_idx on video;
-
+*/
 drop table if exists video;
-
+/*
 drop index comment_user_idx on video_comment;
 
 drop index comment_video_idx on video_comment;
-
+*/
 drop table if exists video_comment;
-
+/*
 drop index user_idx on website_user;
-
+*/
 drop table if exists website_user;
 
 /*==============================================================*/
@@ -381,74 +383,91 @@ group by section_name;
 /*==============================================================*/
 /* View: view_video_data                                        */
 /*==============================================================*/
-create view  view_video_data as
+create view view_video_data as
 select video_id, watched_count, liked_count, faved_count, comment_count
-from
+from 
 (
-    select video_id, count(*) as watched_count
-    from user_watch_video
-    group by video_id
-) 
-natural full outer join
-(
-    select video_id, count(*) as liked_count
-    from user_like_video
-    group by video_id
-)
-natural full outer join
-(
-    select video_id, count(*) as faved_count
-    from user_add2fav_video
-    group by video_id
-)
-natural full outer join
-(
-    select video_id, count(*) as comment_count
-    from video_comment
-    group by video_id
-);
+with vw(video_id, watched_count) as
+   (
+      select video_id, count(*) as watched_count
+      from user_watch_video
+      group by video_id
+   ),
+vl(video_id, liked_count) as 
+   (
+      select video_id, count(*) as liked_count
+      from user_like_video
+      group by video_id 
+   ),
+vf(video_id, faved_count) as 
+   (
+      select video_id, count(*) as faved_count
+      from user_add2fav_video
+      group by video_id   
+   ),
+vc(video_id, comment_count) as 
+   (
+      select video_id, count(*) as comment_count
+      from video_comment
+      group by video_id 
+   ),
+vwvl(video_id, watched_count, liked_count) as
+   (
+      select * 
+      from vw natural left outer join vl
+      union 
+      select *
+      from vw natural right outer join vl
+   ),
+vfvc(video_id, faved_count, comment_count) as 
+   (
+      select *
+      from vf natural left outer join vc 
+      union 
+      select *
+      from vf natural right outer join vl
+   )
+select * 
+from vwvl natural left outer join vfvc
+union
+select *
+from vwvl natural right outer join vfvc
+) as vwvlvfvc;
 
-
+delimiter $$
 create procedure follow (IN uidfollower bigint, IN uidfollowed bigint)
 begin
     insert into follow_record
     values (uidfollowed, uidfollower, current_timestamp());
-end;
+end$$
 
 
 create procedure watch (IN vid varchar(20), IN uid bigint)
 begin
     insert into user_watch_video
     values (vid, uid, current_timestamp());
-end;
+end$$
 
 
 create trigger liked_increase_exp after insert on user_like_video 
-referencing new row as nrow
 for each row
-when (nrow.user_id in (select user_id from website_user)
-    and nrow.video_id in (select video_id from video)
-)
-begin atomic
+begin
     update website_user
     set user_exp = user_exp+1
     where website_user.user_id in (
         select user_id as pid
         from user_publish_video
-        where user_publish_video.video_id = nrow.video_id
+        where user_publish_video.video_id = new.video_id
     );
-end;
+end$$
 
 
 create trigger watch_increase_exp after insert on user_watch_video
-referencing new row as nrow
 for each row
-when (nrow.user_id in (
-    select user_id from website_user
-))
-begin atomic
+begin
     update website_user
     set user_exp = user_exp + 1
-    where nrow.user_id = website_user.user_id;
-end;
+    where new.user_id = website_user.user_id;
+end$$
 
+delimiter ;
