@@ -157,9 +157,9 @@ create table related_video
    related_video_id     varchar(20) not null,
    primary key (main_video_id, related_video_id),
    constraint FK_main foreign key (main_video_id)
-      references video (video_id) on delete restrict on update restrict,
+      references video (video_id) on delete cascade on update restrict,
    constraint FK_related foreign key (related_video_id)
-      references video (video_id) on delete restrict on update restrict
+      references video (video_id) on delete cascade on update restrict
 );
 
 /*==============================================================*/
@@ -197,7 +197,7 @@ create table user_add2fav_video
    constraint FK_user_add2fav_video foreign key (user_id)
       references website_user (user_id) on delete restrict on update restrict,
    constraint FK_user_add2fav_video2 foreign key (video_id)
-      references video (video_id) on delete restrict on update restrict
+      references video (video_id) on delete cascade on update restrict
 );
 
 /*==============================================================*/
@@ -227,7 +227,7 @@ create table user_like_video
    constraint FK_user_like_video foreign key (user_id)
       references website_user (user_id) on delete restrict on update restrict,
    constraint FK_user_like_video2 foreign key (video_id)
-      references video (video_id) on delete restrict on update restrict
+      references video (video_id) on delete cascade on update restrict
 );
 
 /*==============================================================*/
@@ -257,7 +257,7 @@ create table user_publish_video
    constraint FK_user_publish_video foreign key (user_id)
       references website_user (user_id) on delete restrict on update restrict,
    constraint FK_user_publish_video2 foreign key (video_id)
-      references video (video_id) on delete restrict on update restrict
+      references video (video_id) on delete cascade on update restrict
 );
 
 /*==============================================================*/
@@ -284,9 +284,9 @@ create table user_watch_video
    video_id             varchar(20) not null,
    user_id              bigint not null,
    watch_time           timestamp not null,
-   primary key (video_id, user_id),
+   primary key (video_id, user_id, watch_time),
    constraint FK_user_watch_video foreign key (video_id)
-      references video (video_id) on delete restrict on update restrict,
+      references video (video_id) on delete cascade on update restrict,
    constraint FK_user_watch_video2 foreign key (user_id)
       references website_user (user_id) on delete restrict on update restrict
 );
@@ -335,7 +335,7 @@ create table video_comment
    comment_text         varchar(256) not null,
    primary key (video_id, comment_seqnum),
    constraint FK_comment_below_video foreign key (video_id)
-      references video (video_id) on delete restrict on update restrict,
+      references video (video_id) on delete cascade on update restrict,
    constraint FK_user_make_comment foreign key (user_id)
       references website_user (user_id) on delete restrict on update restrict
 );
@@ -413,24 +413,24 @@ vc(video_id, comment_count) as
    ),
 vwvl(video_id, watched_count, liked_count) as
    (
-      select * 
+      select video_id, watched_count, liked_count 
       from vw natural left outer join vl
       union 
-      select *
+      select video_id, watched_count, liked_count 
       from vw natural right outer join vl
    ),
 vfvc(video_id, faved_count, comment_count) as 
    (
-      select *
+      select video_id, faved_count, comment_count
       from vf natural left outer join vc 
       union 
-      select *
-      from vf natural right outer join vl
+      select video_id, faved_count, comment_count
+      from vf natural right outer join vc
    )
-select * 
+select video_id, watched_count, liked_count, faved_count, comment_count 
 from vwvl natural left outer join vfvc
 union
-select *
+select video_id, watched_count, liked_count, faved_count, comment_count
 from vwvl natural right outer join vfvc
 ) as vwvlvfvc;
 

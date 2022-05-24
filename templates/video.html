@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="author" content="黄一凡 HuangYifan AllenYolk" />
+		<meta name="application-name" content="simple-video-website" />
+		<meta
+			name="description"
+			content="A simple application simulating a video website."
+		/>
+
+		<title>Simple Video Website Simulator - Video</title>
+		<link
+			rel="icon"
+			href="{{ url_for('static', filename='images/poppop.jpeg')}}"
+		/>
+		<link rel="stylesheet" href="{{ url_for('static',
+		filename='styles/main.css')}}"" />
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='styles/syntax.css')}}"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Quantico&family=Righteous&family=ZCOOL+KuaiLe&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script
+			src="{{ url_for('static', filename='scripts/video.js') }}"
+			defer
+		></script>
+	</head>
+
+	<body>
+		<header id="homepage-header">
+			<div id="header-text-wrapper">
+				<p id="header-text">Simple Video Website Simulator</p>
+			</div>
+		</header>
+
+		<nav id="top-nav">
+			<p id="top-nav-text">
+				<strong>
+					| &nbsp;&nbsp;
+					<a href="./index.html" class="nav-link">主页</a> &nbsp;&nbsp; |
+					&nbsp;&nbsp;
+					<a href="./video.html" class="nav-link">视频</a> &nbsp;&nbsp; |
+					&nbsp;&nbsp;
+					<a href="./user.html" class="nav-link">用户</a> &nbsp;&nbsp; |
+					&nbsp;&nbsp;
+					<a href="./routing.html" class="nav-link">速通</a> &nbsp;&nbsp; |
+				</strong>
+			</p>
+		</nav>
+
+		<main>
+			<h1 id="page-title">Video</h1>
+			<form>
+				<div><p class="form-notice">请登陆</p></div>
+				<div>
+					<label for="user-name">用户名：</label>
+					<input type="text" id="user-name" name="user_name" />
+				</div>
+				<div>
+					<label for="uid">密码：</label>
+					<input type="password" id="uid" name="uid" />
+				</div>
+				<div><p class="form-notice">请输入视频信息</p></div>
+				<div>
+					<label for="vid">vid：</label>
+					<input type="text" id="vid" name="vid" />
+				</div>
+				<div class="button">
+					<button type="button">确认</button>
+				</div>
+			</form>
+
+			<h2 class="section-title">视频内容</h2>
+			<div class="video-player-wrapper"></div>
+			<h2 class="section-title">评论区</h2>
+			<div class="comment-wrapper"></div>
+		</main>
+
+		<footer>
+			<p>数据库概论（实验班）期中作业</p>
+			<p>所有视频均通过原视频的分享链接嵌入</p>
+			<p>视频的播放量等信息纯属捏造，切勿当真！</p>
+			<p>本项目不作任何商业用途！</p>
+		</footer>
+	</body>
+</html>
