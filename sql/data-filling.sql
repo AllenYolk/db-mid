@@ -33,7 +33,13 @@ insert into website_user values
 (399710787, "TeamDarkside", 28800, false),
 (2094631644, "星陨-资源在动态", 1500, true),
 (40638529, "我耶格又双叒被爆头了", 10800, true),
-(543182, "JHlris", 28800, false)
+(543182, "JHlris", 28800, false),
+(12325588, "王铁丸-与我同行", 28800, true),
+(23060758, "薛定谔妹有猫", 10800, false),
+(15892140, "VisualBuggg視", 10800, false),
+(519585366, "游戏BBQ", 28800, true),
+(21722988, "不要香菜不要辣多放葱", 30000, true),
+(349721082, "清华大学", 28800, false)
 ;
 
 
@@ -66,6 +72,14 @@ insert into video values
 ,("BV1mY4y1s7MJ", "影视", "食雪汉与会员制餐厅【原版】【1080p】", 6049, "2022-03-27 09:33:52", false, "//player.bilibili.com/player.html?aid=640097184&bvid=BV1mY4y1s7MJ&cid=558872592&page=1")
 ,("BV1QZ4y187EU", "美食", "Van Darkholme 泡面头Van长今请你吃拉面！", 134, "2022-05-17 17:05:17", true, "//player.bilibili.com/player.html?aid=384231016&bvid=BV1QZ4y187EU&cid=722469636&page=1")
 ,("BV19F411T7bE", "运动", "Van Darkholme 不一般Van法的DDF健身", 359, "2022-05-08 19:00:00", true, "//player.bilibili.com/player.html?aid=298773769&bvid=BV19F411T7bE&cid=714260250&page=1")
+,("BV1df4y1M7uL", "生活", "太美丽了理塘，哎呀这不丁真吗", 13, "2021-11-05 12:12:57", false, "//player.bilibili.com/player.html?aid=378882106&bvid=BV1df4y1M7uL&cid=436609875&page=1")
+,("BV1a5411S7Bx", "生活", "柯洁再次挑战速通理塘！！振臂复读圣经并发表速通感言", 439, "2022-04-03 18:42:03", false, "//player.bilibili.com/player.html?aid=467753964&bvid=BV1a5411S7Bx&cid=566397569&page=1")
+,("BV1L44y1V7bh", "生活", "柯洁挑战速通理塘成功 振臂高呼：太美丽了理塘！", 314, "2022-04-06 16:45:37", false, "//player.bilibili.com/player.html?aid=980466241&bvid=BV1L44y1V7bh&cid=568917693&page=1")
+,("BV1BC4y1W77Z", "运动", "洁宝来辣----大家好 我是柯洁", 60, "2020-05-09 15:00:16", false, "//player.bilibili.com/player.html?aid=795535109&bvid=BV1BC4y1W77Z&cid=188794942&page=1")
+,("BV1Na411Y7pb", "美食", "食堂Vlog｜“探店”北大家园食堂三层", 254, "2022-05-10 17:19:25", false, "//player.bilibili.com/player.html?aid=213898599&bvid=BV1Na411Y7pb&cid=716758164&page=1")
+,("BV1Zv411L7zc", "资讯", "隔壁！生日快乐！看看北大学子眼里的清华是啥样？", 72, "2021-04-25 11:15:33", false, "//player.bilibili.com/player.html?aid=247851310&bvid=BV1Zv411L7zc&cid=328891597&page=1")
+,("BV1F541137Gy", "资讯", "北京大学123岁生日快乐哦！送上我们的祝福", 74, "2021-05-04 07:49:06", false, "//player.bilibili.com/player.html?aid=460398240&bvid=BV1F541137Gy&cid=333366992&page=1")
+,("BV1cV41177Gw", "知识", "【清华大学宣传片】大学之道", 349, "2021-05-27 13:30:13", false, "//player.bilibili.com/player.html?aid=418300813&bvid=BV1cV41177Gw&cid=348298323&page=1")
 ;
 
 
@@ -81,6 +95,8 @@ insert into video_comment values
 ,("BV184411Y7Pj", 10, 399710787, "2019-05-11 01:02", "激动疯了")
 ,("BV1QZ4y187EU", 2, 40638529, "2022-05-17 17:05", "解锁新皮肤 Van长今")
 ,("BV19F411T7bE", 2, 543182, "2022-05-08 22:29", "北美 刘♂耕♂宏")
+,("BV1df4y1M7uL", 6, 23060758, "2022-01-28 00:34", "这视频明明没有什么好看的，无趣的台词，无趣的手法，但就是看到一次点一次")
+,("BV1L44y1V7bh", 1, 21722988, "2022-04-06 19:31", "围棋少年，历经磨难。微博斗女⭕，结果被冲难")
 ;
 
 insert into user_publish_video values
@@ -94,7 +110,15 @@ insert into user_publish_video values
 (331989468, "BV184411Y7Pj"),
 (2094631644, "BV1mY4y1s7MJ"),
 (477631979, "BV1QZ4y187EU"),
-(477631979, "BV19F411T7bE")
+(477631979, "BV19F411T7bE"),
+(12325588, "BV1df4y1M7uL"),
+(15892140, "BV1a5411S7Bx"),
+(519585366, "BV1L44y1V7bh"),
+(525952604, "BV1BC4y1W77Z"),
+(434346657, "BV1Na411Y7pb"),
+(434346657, "BV1Zv411L7zc"),
+(349721082, "BV1F541137Gy"),
+(349721082, "BV1cV41177Gw")
 ;
 
 insert into related_video values
@@ -102,4 +126,17 @@ insert into related_video values
 ,("BV1LL411374T","BV1dR4y1s7Qr")
 ,("BV1dR4y1s7Qr", "BV1Ei4y1C7Yo")
 ,("BV1Ei4y1C7Yo", "BV1nS4y167dw")
+,("BV1df4y1M7uL", "BV1Ei4y1C7Yo")
+,("BV1df4y1M7uL", "BV1a5411S7Bx")
+,("BV1L44y1V7bh", "BV1df4y1M7uL")
+,("BV1a5411S7Bx", "BV1L44y1V7bh")
+,("BV1BC4y1W77Z", "BV1a5411S7Bx")
+,("BV1LL411374T", "BV1BC4y1W77Z")
+,("BV1Na411Y7pb", "BV1LL411374T")
+,("BV1Zv411L7zc", "BV1Na411Y7pb")
+,("BV1Na411Y7pb", "BV1Zv411L7zc")
+,("BV1Zv411L7zc", "BV1F541137Gy")
+,("BV1F541137Gy", "BV1Zv411L7zc")
+,("BV1cV41177Gw", "BV1F541137Gy")
+,("BV1F541137Gy", "BV1cV41177Gw")
 ;

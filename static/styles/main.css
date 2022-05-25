@@ -322,7 +322,7 @@ iframe {
     text-align: center;
 }
 
-.v-w:hover, .v-l:hover, .v-f:hover{
+.v-w:hover, .v-l:hover, .v-f:hover, .v-publisher:hover{
     background-color: blanchedalmond;
 }
 
@@ -453,9 +453,15 @@ iframe {
 }
 
 .routing-wrapper {
-    height: 700px;
+    height: auto;
     width: auto;
     border: blue;
     border-style: dashed;
     margin: 20px 10px 20px 10px;
+}
+
+.r-prefix {
+    font-size: 14pt;
+    font-weight: bold;
+    color: olivedrab; 
 }

@@ -25,9 +25,7 @@ function addNewVideoBlock(row) {
             <div class="hpvideo-faved">收藏:${faved}</div>
             <div class="hpvideo-commented">评论:${commented}</div>` 
         )
-    );
-
-    
+    ); 
 }
 
 $(".button > button").click(() => {

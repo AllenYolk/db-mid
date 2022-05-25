@@ -1,6 +1,7 @@
 from tracemalloc import start
 from flask import Flask, render_template, jsonify, request
 import pymysql
+from pprint import pprint
 
 
 app = Flask(__name__)
@@ -232,47 +233,51 @@ def getRouting():
 
     v = []
     dis = {}
+    dd = {}
     cursor.execute(f"select video_id from video")
     for i, vv in enumerate(cursor.fetchall()):
         v.append(vv[0])
-        dis[vv[0]] = [i, 9999999, -1]
+        dis[vv[0]] = [i, -1]
+        dd[i] = 9999999
     adj = [[0 for i in range(len(v))] for j in range(len(v))]
     cursor.execute(f"select main_video_id, related_video_id from related_video")
     for p in cursor.fetchall():
         adj[dis[p[0]][0]][dis[p[1]][0]] = 1
-    
+
     start_point = dis[sp][0]
-    dis[sp][1] = 0;
-    dis[sp][2] = start_point
+    dd[start_point] = 0;
+    dis[sp][1] = start_point
     while True:
-        dd = sorted(dis.items(), key = lambda x: x[1][1])
-        new_vid, (new_seq, new_dis, _) = dd[0]
+        ddd = sorted(dd.items(), key = lambda x: x[1])
+        new_seq, new_dis = ddd[0]
         flag = False
-        for i, vid in enumerate(v):
-            if adj[new_seq][i] == 1 and new_dis+1 < dis[vid][1]:
-                dis[vid][1] = new_dis+1
-                dis[vid][2] = new_seq
+        for seq, old_dis in ddd:
+            if adj[new_seq][seq] == 1 and new_dis+1 < old_dis:
+                dd[seq] = new_dis+1
+                dis[v[seq]][1] = new_seq
                 flag = True
+        del(dd[new_seq])
         if not flag:
             break
 
     r = [ep]
     if ep == sp:
         r = [sp]
-    elif dis[ep][2] < 0:
+    elif dis[ep][1] < 0:
         r = []
     else:
         while True:
             now_front = r[len(r)-1]
-            new_front_seq = dis[now_front][2]
+            new_front_seq = dis[now_front][1]
             r.append(v[new_front_seq])
             if new_front_seq == start_point:
                 break
     
-    print(r)
-    print(adj)
-    print(v)
-    print(dis)
+    pprint(r)
+    pprint(adj)
+    pprint(v)
+    pprint(dis)
+
     if len(r) == 0:
         return jsonify({})
     res = []
@@ -281,8 +286,9 @@ def getRouting():
         sql = f"""
         select * 
         from video natural left outer join view_video_data 
-        where vieo_id = '{vid}';
+        where video_id = '{vid}';
         """
+        cursor.execute(sql)
         res.append(cursor.fetchone())
     return jsonify(res)
 

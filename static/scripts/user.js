@@ -63,11 +63,50 @@ function displayUser(res) {
     )
 }
 
+function checkUIDInput(uid) {
+    if (uid.search(/^[0-9]+$/) !== 0)
+        return false;
+
+    return true;
+}
+
+function checkUserNameInput(user_name) {
+    if (user_name.search(/delete\s+from/) !== -1)
+        return false;
+
+    if (user_name.search(/update[\s\S]+set/) !== -1)
+        return false;
+
+    if (user_name.search(/insert\s+into/) !== -1)
+        return false;
+
+    if (user_name.search(/create\s+table/) !== -1)
+        return false;
+
+    if (user_name.search(/drop\s+table/) !== -1)
+        return false;
+
+    if (user_name.search(/alter\s+table/) !== -1)
+        return false;
+    
+    return true;
+}
+
 $(".button > button").click(() => {
     $(".user-info-wrapper").empty();
     $(".video-list").empty();
     let user_name = $("#user-name").val(),
         uid = $("#uid").val();
+
+    if (!checkUIDInput(uid)) {
+        alert("Wrong uid format!!!")
+        return;
+    }
+
+    if (!checkUserNameInput(user_name)){
+        alert("想搞事情？")
+        return;
+    }
 
     let d = {
         user_name, uid
