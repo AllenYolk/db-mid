@@ -38,7 +38,7 @@ function displayRoute(res) {
 }
 
 function checkVIDInput(vid) {
-    if (vid.search(/^BV[0-9]+$/) !== 0)
+    if (vid.search(/^BV[0-9a-zA-Z]+$/) !== 0)
         return false;
 
     return true;
